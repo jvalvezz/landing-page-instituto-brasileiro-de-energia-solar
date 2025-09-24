@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 const socialLinks = [
   {
-    href: 'https://www.instagram.com/ibs.solar',
+    href: 'https://www.instagram.com/ibs.solar/',
     label: 'Instagram',
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -13,7 +13,7 @@ const socialLinks = [
     )
   },
   {
-    href: 'https://www.facebook.com/ecossistemaibs',
+    href: 'https://www.facebook.com/ecossistemaibs/',
     label: 'Facebook',
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
@@ -22,7 +22,7 @@ const socialLinks = [
     )
   },
   {
-    href: 'https://br.linkedin.com/company/ibs-sistemas-de-energia-solar',
+    href: 'https://br.linkedin.com/company/ibs-solar',
     label: 'LinkedIn',
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
@@ -76,23 +76,48 @@ export default function Footer() {
           <div>
             <h4 className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-brand-light">Portais</h4>
             <ul className="space-y-3 text-white/70">
-              <li><a className="transition hover:text-white" href="https://cooperativa.ibs.eco.br" target="_blank" rel="noopener">Cooperativa IBS</a></li>
-              <li><a className="transition hover:text-white" href="https://investimentos.ibs.eco.br" target="_blank" rel="noopener">Investimentos</a></li>
-              <li><a className="transition hover:text-white" href="https://oportunidades.ibs.eco.br" target="_blank" rel="noopener">Oportunidades</a></li>
+              <li><a className="inline-flex items-center gap-2 transition-all duration-200 hover:text-white hover:translate-x-1" href="https://cooperativa.ibs.eco.br" target="_blank" rel="noopener">
+                <svg className="w-4 h-4 text-brand-primary" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                  <path fillRule="evenodd" d="M3 10a1 1 0 011-1h10a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+                </svg>
+                Cooperativa IBS
+              </a></li>
+              <li><a className="inline-flex items-center gap-2 transition-all duration-200 hover:text-white hover:translate-x-1" href="https://investimentos.ibs.eco.br" target="_blank" rel="noopener">
+                <svg className="w-4 h-4 text-brand-primary" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                  <path fillRule="evenodd" d="M3 10a1 1 0 011-1h10a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+                </svg>
+                Investimentos
+              </a></li>
+              <li><a className="inline-flex items-center gap-2 transition-all duration-200 hover:text-white hover:translate-x-1" href="https://oportunidades.ibs.eco.br" target="_blank" rel="noopener">
+                <svg className="w-4 h-4 text-brand-primary" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                  <path fillRule="evenodd" d="M3 10a1 1 0 011-1h10a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+                </svg>
+                Oportunidades
+              </a></li>
               <li>
                 <label className="sr-only" htmlFor="portal-select">Portais IBS</label>
-                <select
-                  id="portal-select"
-                  className="w-full rounded-xl border border-white/25 bg-white/10 px-4 py-3 text-sm font-semibold text-white backdrop-blur transition hover:border-white/40 hover:bg-white/15"
-                  defaultValue=""
-                  onChange={handlePortalChange}
-                >
-                  <option value="" disabled>
-                    Escolha o portal
-                  </option>
-                  <option value="https://ibs.app.br/IBS/open.do?sys=IBS">Portal Cooperativa</option>
-                  <option value="https://ibs.app.br/IBS/open.do?sys=CREDENCIADO">Portal Credenciado</option>
-                </select>
+                <div className="relative">
+                  <select
+                    id="portal-select"
+                    className="w-full appearance-none rounded-xl border-2 border-white/30 bg-white/10 px-4 py-3 pr-10 text-sm font-semibold text-white backdrop-blur transition-all duration-200 hover:border-white/50 hover:bg-white/15 focus:border-white focus:outline-none focus:ring-4 focus:ring-white/20 cursor-pointer"
+                    defaultValue=""
+                    onChange={handlePortalChange}
+                  >
+                    <option value="" disabled className="text-slate-300">
+                      Acesso aos Portais
+                    </option>
+                    <option value="https://ibs.app.br/IBS/open.do?sys=IBS" className="text-slate-700 font-semibold bg-white">Portal Cooperativa</option>
+                    <option value="https://ibs.app.br/IBS/open.do?sys=CREDENCIADO" className="text-slate-700 font-semibold bg-white">Portal Credenciado</option>
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <svg className="w-4 h-4 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
               </li>
             </ul>
           </div>

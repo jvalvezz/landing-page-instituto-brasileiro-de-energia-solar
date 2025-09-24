@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 const navItems = [
   { href: '#hero', label: 'A IBS' },
-  { href: '#beneficios', label: 'BenefÃ­cios' },
+  { href: '#beneficios', label: 'Benefícios' },
   { href: '#ecossistema', label: 'Ecossistema' },
   { href: '#parceiros', label: 'Parcerias' },
   { href: '#depoimentos', label: 'Depoimentos' },
@@ -76,9 +76,11 @@ export default function Header() {
             </a>
           ))}
           <div
-            className={`relative flex items-center ${
-              isScrolled ? 'border border-brand-primary/20 bg-white/90 text-brand-deep shadow-soft' : 'border border-white/30 bg-white/10 text-white'
-            } rounded-full px-4 py-2`}
+            className={`relative flex items-center rounded-full px-4 py-2 ${
+              isScrolled 
+                ? 'border-2 border-brand-primary/30 bg-white/95 text-brand-dark shadow-soft' 
+                : 'border-2 border-white/40 bg-white/20 text-white backdrop-blur'
+            }`}
           >
             <label htmlFor="portal-nav" className="sr-only">
               Portais do Integrador
@@ -87,18 +89,20 @@ export default function Header() {
               id="portal-nav"
               defaultValue=""
               onChange={handlePortalSelect}
-              className={`appearance-none bg-transparent text-xs font-semibold uppercase tracking-[0.32em] outline-none ${
-                isScrolled ? 'text-brand-deep' : 'text-white'
+              className={`appearance-none bg-transparent text-xs font-bold uppercase tracking-[0.32em] outline-none cursor-pointer ${
+                isScrolled ? 'text-brand-dark' : 'text-white'
               }`}
             >
-              <option value="" disabled>
+              <option value="" disabled className="bg-white text-slate-700">
                 Portais do Integrador
               </option>
-              <option value="https://ibs.app.br/IBS/open.do?sys=IBS">Portal Cooperativa</option>
-              <option value="https://ibs.app.br/IBS/open.do?sys=CREDENCIADO">Portal Credenciado</option>
+              <option value="https://ibs.app.br/IBS/open.do?sys=IBS" className="bg-white text-slate-700 font-semibold">Portal Cooperativa</option>
+              <option value="https://ibs.app.br/IBS/open.do?sys=CREDENCIADO" className="bg-white text-slate-700 font-semibold">Portal Credenciado</option>
             </select>
-            <span className={`pointer-events-none pl-3 text-xs ${isScrolled ? 'text-brand-deep/60' : 'text-white/70'}`}>
-              â–¾
+            <span className={`pointer-events-none pl-3 ${isScrolled ? 'text-brand-dark' : 'text-white'}`}>
+              <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
             </span>
           </div>
         </nav>
