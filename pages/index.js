@@ -1,16 +1,288 @@
 ﻿import Head from 'next/head'
-
 import Image from 'next/image'
-
 import { motion } from 'framer-motion'
-
+import { useState } from 'react'
 import Header from '../components/Header'
-
 import Footer from '../components/Footer'
-
 import Button from '../components/Button'
-
 import Card from '../components/Card'
+
+// Componente refinado do ecossistema IBS
+const EcosystemInteractive = () => {
+  const [hoveredItem, setHoveredItem] = useState(null)
+
+  // Ícones SVG simples
+  const ShieldIcon = ({ size = 24, className = "" }) => (
+    <svg width={size} height={size} className={className} fill="currentColor" viewBox="0 0 16 16">
+      <path d="M5.338 1.59a61.44 61.44 0 0 0-2.837.856.481.481 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.725 10.725 0 0 0 2.287 2.233c.346.244.652.42.893.533.12.057.218.095.293.118a.55.55 0 0 0 .101.025.615.615 0 0 0 .1-.025c.076-.023.174-.061.294-.118.24-.113.547-.29.893-.533a10.726 10.726 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.775 11.775 0 0 1-2.517 2.453 7.159 7.159 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7.158 7.158 0 0 1-1.048-.625 11.777 11.777 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 62.456 62.456 0 0 1 5.072.56z"/><path d="M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+    </svg>
+  )
+
+  const DollarIcon = ({ size = 24, className = "" }) => (
+    <svg width={size} height={size} className={className} fill="currentColor" viewBox="0 0 16 16">
+      <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73l.348.086z"/>
+    </svg>
+  )
+
+  const TruckIcon = ({ size = 24, className = "" }) => (
+    <svg width={size} height={size} className={className} fill="currentColor" viewBox="0 0 16 16">
+      <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+    </svg>
+  )
+
+  const HeadsetIcon = ({ size = 24, className = "" }) => (
+    <svg width={size} height={size} className={className} fill="currentColor" viewBox="0 0 16 16">
+      <path d="M8 1a5 5 0 0 0-5 5v1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a6 6 0 1 1 12 0v6a2.5 2.5 0 0 1-2.5 2.5H9.366a1 1 0 0 1-.866-.5l-1.732-3a.5.5 0 0 1 .866-.5l1.732 3H11.5A1.5 1.5 0 0 0 13 10.5V8a1 1 0 0 1 1-1h1V6a5 5 0 0 0-5-5z"/>
+    </svg>
+  )
+
+  const PeopleIcon = ({ size = 24, className = "" }) => (
+    <svg width={size} height={size} className={className} fill="currentColor" viewBox="0 0 16 16">
+      <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002A.274.274 0 0 1 15 13H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/>
+    </svg>
+  )
+
+  const BankIcon = ({ size = 24, className = "" }) => (
+    <svg width={size} height={size} className={className} fill="currentColor" viewBox="0 0 16 16">
+      <path d="m8 0 6.61 3h.89a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5H15v7a.5.5 0 0 1 .485.38l.5 2a.498.498 0 0 1-.485.62H.5a.498.498 0 0 1-.485-.62l.5-2A.501.501 0 0 1 1 13V6H.5a.5.5 0 0 1-.5-.5v-2A.5.5 0 0 1 .5 3h.89L8 0ZM3.777 3h8.447L8 1 3.777 3ZM2 6v7h1V6H2Zm2 0v7h2.5V6H4Zm3.5 0v7h1V6h-1Zm2 0v7H12V6H9.5ZM13 6v7h1V6h-1Zm2-1V4H1v1h14Zm-.39 9H1.39l-.25 1h13.72l-.25-1Z"/>
+    </svg>
+  )
+
+  const GraphIcon = ({ size = 24, className = "" }) => (
+    <svg width={size} height={size} className={className} fill="currentColor" viewBox="0 0 16 16">
+      <path fillRule="evenodd" d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z"/>
+    </svg>
+  )
+
+  const HandshakeIcon = ({ size = 24, className = "" }) => (
+    <svg width={size} height={size} className={className} fill="currentColor" viewBox="0 0 16 16">
+      <path d="m11 5.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5ZM4.5 5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5ZM3 8a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1H3Zm-1 3a.5.5 0 0 0 0 1h11a.5.5 0 0 0 0-1H2Z"/>
+    </svg>
+  )
+
+  // Badge esquerda com animação hover
+  const RowBadgeLeft = ({ label, icon: IconComponent }) => (
+    <motion.div
+      whileHover={{ scale: 1.02, x: 2 }}
+      transition={{ type: "spring", stiffness: 220, damping: 18 }}
+      className="relative w-full cursor-pointer z-20"
+      onMouseEnter={() => setHoveredItem({ type: 'left', label })}
+      onMouseLeave={() => setHoveredItem(null)}
+    >
+      <div className="flex items-center gap-4">
+        <div className="rounded-full bg-[#1E88E5] text-white px-8 py-4 text-xl md:text-2xl leading-none font-semibold shadow-lg w-full max-w-[320px] min-w-[280px]">
+          {label}
+        </div>
+        <div className="flex items-center justify-center w-[72px] h-[72px] rounded-full bg-white shadow-lg border border-blue-200 -ml-6 relative z-30" style={{ aspectRatio: '1/1' }}>
+          <div className="rounded-full w-[58px] h-[58px] bg-[#E3F2FD] flex items-center justify-center" style={{ aspectRatio: '1/1' }}>
+            <IconComponent size={28} className="text-[#1E88E5]" />
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  )
+
+  // Badge direita com animação hover
+  const RowBadgeRight = ({ label, icon: IconComponent }) => (
+    <motion.div
+      whileHover={{ scale: 1.02, x: -2 }}
+      transition={{ type: "spring", stiffness: 220, damping: 18 }}
+      className="relative w-full cursor-pointer z-20"
+      onMouseEnter={() => setHoveredItem({ type: 'right', label })}
+      onMouseLeave={() => setHoveredItem(null)}
+    >
+      <div className="flex items-center gap-4">
+        <div className="flex items-center justify-center w-[72px] h-[72px] rounded-full bg-white shadow-lg border border-green-200 -mr-6 order-1 relative z-30" style={{ aspectRatio: '1/1' }}>
+          <div className="rounded-full w-[58px] h-[58px] bg-[#E8F5E8] flex items-center justify-center" style={{ aspectRatio: '1/1' }}>
+            <IconComponent size={28} className="text-[#059669]" />
+          </div>
+        </div>
+        <div className="rounded-full bg-[#059669] text-white px-8 py-4 text-xl md:text-2xl leading-none font-semibold shadow-lg w-full max-w-[320px] min-w-[280px] order-2">
+          {label}
+        </div>
+      </div>
+    </motion.div>
+  )
+
+  // Animação de entrada
+  const fadeUp = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  }
+
+  // Explicações para hover
+  const getExplanation = (item) => {
+    const explanations = {
+      'Autoridade': 'Conformidade regulatória e certificações do setor elétrico',
+      'Faturamento': 'Sistema integrado de gestão financeira e cobrança',
+      'Distribuição': 'Logística e distribuição de equipamentos solares',
+      'Suporte': 'Atendimento técnico e suporte especializado 24/7',
+      'Cooperativa': 'Modelo cooperativo de geração distribuída',
+      'Garantia': 'Garantias estendidas e seguros para projetos',
+      'Financiamento': 'Linhas de crédito e financiamento para energia solar',
+      'Mercado de Ativos': 'Comercialização de créditos de energia renovável',
+    }
+    return explanations[item.label] || 'Solução integrada do ecossistema IBS'
+  }
+
+  return (
+    <section className="relative w-full overflow-hidden">
+      {/* Mapa mundial sutil de fundo */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-[0.06]" 
+        style={{
+          backgroundImage: "url('/world-map.svg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }} 
+      />
+
+      <div className="relative mx-auto max-w-6xl px-4 py-12 md:py-16">
+        {/* Top Tabs - Principais categorias - Conectadas como na referência */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="flex items-center justify-center mb-16"
+        >
+          {/* Peça única conectada */}
+          <div className="flex items-center bg-white/15 backdrop-blur-md rounded-full p-3 shadow-2xl border border-white/20">
+            {/* INTEGRADOR */}
+            <div className="bg-[#1E3A8A] text-white text-xl md:text-2xl px-12 py-6 rounded-full font-semibold min-w-[260px] text-center shadow-lg">
+              INTEGRADOR
+            </div>
+            
+            {/* ECOSSISTEMA */}
+            <div className="bg-white text-[#1E3A8A] text-xl md:text-2xl px-14 py-7 rounded-2xl font-bold min-w-[300px] text-center shadow-inner border border-gray-100">
+              ECOSSISTEMA
+            </div>
+            
+            {/* INVESTIDOR */}
+            <div className="bg-[#059669] text-white text-xl md:text-2xl px-12 py-6 rounded-full font-semibold min-w-[260px] text-center shadow-lg">
+              INVESTIDOR
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Layout principal em 3 colunas */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
+          {/* Coluna esquerda */}
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+            className="flex flex-col gap-5 order-1"
+          >
+            <RowBadgeLeft label="Autoridade" icon={ShieldIcon} />
+            <RowBadgeLeft label="Faturamento" icon={DollarIcon} />
+            <RowBadgeLeft label="Distribuição" icon={TruckIcon} />
+            <RowBadgeLeft label="Suporte" icon={HeadsetIcon} />
+          </motion.div>
+
+          {/* Logo central */}
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+            className="order-3 lg:order-2 flex items-center justify-center relative"
+          >
+            <div className="flex flex-col items-center">
+              {/* Logo - aparece quando não há hover */}
+              <motion.div
+                className="relative w-72 h-56 md:w-80 md:h-64"
+                initial={{ opacity: 1 }}
+                animate={{ opacity: hoveredItem ? 0 : 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Image
+                  src="/ibs-logo-white.png"
+                  alt="IBS - Instituto Brasileiro de Energia Solar"
+                  fill
+                  sizes="320px"
+                  className="object-contain"
+                  priority
+                />
+              </motion.div>
+              
+              {/* Card de explicação - aparece no lugar da logo APENAS com hover */}
+              <motion.div
+                className="absolute top-0 flex items-center justify-center w-full h-full"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ 
+                  opacity: hoveredItem ? 1 : 0,
+                  scale: hoveredItem ? 1 : 0.8
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                {hoveredItem && (
+                  <div className="bg-white/95 backdrop-blur-sm border border-slate-300 rounded-2xl p-8 max-w-md text-center shadow-2xl">
+                    <h4 className="text-xl font-bold text-slate-800 mb-3">{hoveredItem.label}</h4>
+                    <p className="text-slate-600 text-base leading-relaxed">{getExplanation(hoveredItem)}</p>
+                  </div>
+                )}
+              </motion.div>
+              
+              <div className="text-xs text-white/80 text-center leading-tight mt-2">
+                Instituto Brasileiro<br />
+                de Energia Solar
+              </div>
+              <div className="flex gap-1 mt-2">
+                <span className="h-1 w-4 rounded-full bg-[#008ecf]" />
+                <span className="h-1 w-4 rounded-full bg-[#f3a712]" />
+                <span className="h-1 w-4 rounded-full bg-[#0f9a4b]" />
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Coluna direita */}
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+            className="flex flex-col gap-5 order-2 lg:order-3"
+          >
+            <RowBadgeRight label="Cooperativa" icon={PeopleIcon} />
+            <RowBadgeRight label="Garantia" icon={ShieldIcon} />
+            <RowBadgeRight label="Financiamento" icon={BankIcon} />
+            <RowBadgeRight label="Mercado de Ativos" icon={GraphIcon} />
+          </motion.div>
+        </div>
+
+        {/* Banner inferior - Conectado como na referência */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="mt-16 flex items-center justify-center"
+        >
+          {/* Peça única conectada com ícone central */}
+          <div className="flex items-center bg-white/15 backdrop-blur-md rounded-full p-3 shadow-2xl border border-white/20">
+            {/* RENTABILIDADE */}
+            <div className="bg-[#1E3A8A] text-white text-xl md:text-2xl px-12 py-6 rounded-full font-semibold min-w-[260px] text-center shadow-lg">
+              RENTABILIDADE
+            </div>
+            
+            {/* Ícone central branco */}
+            <div className="bg-white rounded-full w-[80px] h-[80px] flex items-center justify-center mx-4 shadow-lg border border-gray-200" style={{ aspectRatio: '1/1' }}>
+              <HandshakeIcon size={32} className="text-[#1E3A8A]" />
+            </div>
+            
+            {/* SEGURANÇA */}
+            <div className="bg-[#059669] text-white text-xl md:text-2xl px-12 py-6 rounded-full font-semibold min-w-[260px] text-center shadow-lg">
+              SEGURANÇA
+            </div>
+          </div>
+        </motion.div>
+
+      </div>
+    </section>
+  )
+}
 
 const SparkIcon = () => (
 
@@ -133,50 +405,6 @@ const testimonials = [
   }
 
 ]
-
-
-
-const ecosystemServices = [
-  { label: 'Distribuidoras', color: '#ee7218' },
-  { label: 'Financiamento', color: '#f48a1c' },
-  { label: 'Logística', color: '#f6a62c' },
-  { label: 'Jurídico', color: '#127b77' },
-  { label: 'Engenharia', color: '#119b82' },
-  { label: 'Sistema', color: '#0d827b' },
-  { label: 'Marketing', color: '#f8b912', textClass: 'text-brand-dark' },
-  { label: 'Treinamento', color: '#f3aa1d', textClass: 'text-brand-dark' },
-  { label: 'Licitação', color: '#f3b826', textClass: 'text-brand-dark' }
-]
-
-const ecosystemStakeholders = [
-  { label: 'Investidor Autoconsumo', color: '#1e4f93' },
-  { label: 'Investidor Cooperativa', color: '#1b4a89' },
-  { label: 'Integrador', color: '#123f7a' },
-  { label: 'Corretor', color: '#0f3566' },
-  { label: 'Cooperativa', color: '#0f9a4b' }
-]
-
-const EcosystemPill = ({
-  label,
-  color,
-  textClass = 'text-white',
-  direction = 'left',
-  delay = 0
-}) => (
-  <motion.div
-    initial={{ opacity: 0, x: direction === 'left' ? -24 : 24 }}
-    whileInView={{ opacity: 1, x: 0 }}
-    viewport={{ once: true, amount: 0.4 }}
-    transition={{ duration: 0.45, delay }}
-    style={{ backgroundColor: color }}
-    className={`${textClass} flex items-center justify-between gap-4 rounded-md px-5 py-3 text-sm font-semibold shadow-[0_18px_36px_-24px_rgba(8,22,40,0.6)] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_26px_48px_-28px_rgba(8,22,40,0.65)]`}
-  >
-    <span>{label}</span>
-    <span className="relative h-6 w-10 shrink-0 md:h-7 md:w-12">
-      <Image src="/logo/ibs-badge-white.png" alt="IBS" fill sizes="48px" className="object-contain" />
-    </span>
-  </motion.div>
-)
 
 const getInitials = (name) =>
 
@@ -555,84 +783,21 @@ export default function Home({ introDone }) {
 
         <section
           id="ecossistema"
-          className="section bg-slate-900 text-white pt-0"
+          className="section bg-slate-900 text-white pt-0 overflow-hidden"
         >
           <div className="container-px">
-            <div className="grid gap-10 lg:grid-cols-[260px_minmax(0,1fr)_260px] xl:grid-cols-[300px_minmax(0,1fr)_300px]">
-              <div className="flex flex-col gap-3">
-                {ecosystemServices.map((service, index) => (
-                  <EcosystemPill
-                    key={service.label}
-                    {...service}
-                    direction="left"
-                    delay={index * 0.05}
-                  />
-                ))}
-              </div>
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7 }}
+              className="text-center mb-16"
+            >
+              <span className="section-eyebrow text-white/60">Uma visão geral do</span>
+              <h3 className="text-4xl font-semibold text-white md:text-5xl">ecossistema</h3>
+            </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.6 }}
-                transition={{ duration: 0.7, delay: 0.1 }}
-                className="relative flex flex-col items-center overflow-hidden rounded-[44px] border border-white/10 bg-white/5 px-10 py-16 text-center shadow-[0_55px_140px_-55px_rgba(4,27,68,0.85)] backdrop-blur-xl"
-              >
-                <div className="pointer-events-none absolute inset-0 bg-white/5" />
-
-                <span className="section-eyebrow text-white/60">Uma visão geral do</span>
-                <h3 className="text-4xl font-semibold text-white md:text-5xl">ecossistema</h3>
-                <p className="mx-auto mt-4 max-w-xl text-base text-white/75 md:text-lg">
-                  No Instituto Brasileiro de Energia Solar, somos um ecossistema completo que conecta integrações, investimentos, cooperativas e todo o suporte necessário para transformar energia em prosperidade.
-                </p>
-
-                <div className="mt-8 flex w-full flex-col gap-4 text-left text-sm text-white/70 md:text-base">
-                  <p>
-                    Geramos oportunidades reais para integradores com treinamentos contínuos, logística, engenharia e sistemas integrados.
-                  </p>
-                  <p>
-                    Oferecemos segurança para investidores e cooperativas com assessoria jurídica, modelos de negócio validados e parcerias estratégicas.
-                  </p>
-                  <p>
-                    Integramos soluções financeiras, marketing e licitações para acelerar projetos solares em todo o Brasil.
-                  </p>
-                </div>
-              </motion.div>
-
-              <div className="flex flex-col gap-3">
-                {ecosystemStakeholders.map((stakeholder, index) => (
-                  <EcosystemPill
-                    key={stakeholder.label}
-                    {...stakeholder}
-                    direction="right"
-                    delay={index * 0.05}
-                  />
-                ))}
-
-                <motion.a
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.4 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
-                  href="https://www.youtube.com/watch?v=VwOVLxFNMPE"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group relative mt-4 flex items-center justify-between gap-4 rounded-md border border-white/15 px-6 py-3 text-sm font-semibold text-white shadow-[0_18px_36px_-24px_rgba(8,22,40,0.6)] backdrop-blur"
-                  style={{ backgroundColor: '#102a54' }}
-                >
-                  <span>Assista ao vídeo explicativo</span>
-                  <div className="flex items-center gap-2">
-                    <span className="relative h-6 w-10 shrink-0 md:h-7 md:w-12">
-                      <Image src="/logo/ibs-badge-white.png" alt="IBS" fill sizes="48px" className="object-contain" />
-                    </span>
-                    <div className="flex items-center gap-[3px]">
-                      <span className="h-1.5 w-3 rounded-full bg-[#008ecf]" />
-                      <span className="h-1.5 w-3 rounded-full bg-[#f3a712]" />
-                      <span className="h-1.5 w-3 rounded-full bg-[#0f9a4b]" />
-                    </div>
-                  </div>
-                </motion.a>
-              </div>
-            </div>
+            <EcosystemInteractive />
           </div>
         </section>
 
@@ -842,15 +1007,10 @@ export default function Home({ introDone }) {
         </section>
 
         <section id="contato" className="section">
-
-          <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
-
+          <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-end lg:gap-16">
             <motion.div
-
               initial={{ opacity: 0, x: -40 }}
-
               whileInView={{ opacity: 1, x: 0 }}
-
               viewport={{ once: true, amount: 0.5 }}
 
               transition={{ duration: 0.7 }}
