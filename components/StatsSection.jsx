@@ -20,26 +20,12 @@ export default function StatsSection({
   description,
   stats = [],
   eyebrow,
-  backgroundClass = 'relative isolate overflow-hidden',
+  backgroundClass = 'section bg-slate-900 text-white pb-0',
   className = ''
 }) {
   return (
-    <section id={id} className={`section text-white ${backgroundClass} ${className}`.trim()}>
-      {/* Fundo azul escuro com mapa mundi - igual ao ecossistema */}
-      <div className="absolute inset-0 -z-10">
-        <div
-          className="absolute inset-0 bg-brand-dark"
-          style={{
-            backgroundImage: "url('/fundo-mapa-mundi-azul.png')",
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
-          }}
-        />
-        <div className="absolute inset-0 bg-brand-dark/70" />
-      </div>
-
-      <div className="mx-auto max-w-5xl text-center relative z-10">
+    <section id={id} className={`${backgroundClass} ${className}`.trim()}>
+      <div className="mx-auto max-w-5xl text-center">
         {eyebrow && (
           <motion.span
             initial={{ opacity: 0, y: 16 }}
